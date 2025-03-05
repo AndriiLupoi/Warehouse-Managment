@@ -3,11 +3,13 @@ package org.example.warehouse_managment.service;
 import org.example.warehouse_managment.model.Category;
 
 import org.example.warehouse_managment.repository.CategoryRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class CategoryService {
@@ -16,8 +18,13 @@ public class CategoryService {
     CategoryRepository categoryRepository;
 
     public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAll();
+        categories.forEach(System.out::println); // Вивід у консоль
+        return categories;
     }
+
+
+
 
     public Optional<Category> getCategoryById(int id) {
         Optional<Category> category = categoryRepository.findById(id);

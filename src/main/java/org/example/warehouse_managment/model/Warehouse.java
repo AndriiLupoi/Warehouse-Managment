@@ -13,13 +13,12 @@ import lombok.NoArgsConstructor;
 public class Warehouse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "location", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "location")
     private String location;
 }

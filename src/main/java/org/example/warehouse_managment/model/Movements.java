@@ -18,21 +18,21 @@ public class Movements {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "from_warehouse_id", nullable = false)
+    @JoinColumn(name = "from_warehouse_id")
     private Warehouse fromWarehouse;
 
     @ManyToOne
-    @JoinColumn(name = "to_warehouse_id", nullable = false)
+    @JoinColumn(name = "to_warehouse_id")
     private Warehouse toWarehouse;
 
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "moved_at", nullable = false)
+    @Column(name = "moved_at")
     private LocalDateTime movedAt;
 
     @PrePersist
