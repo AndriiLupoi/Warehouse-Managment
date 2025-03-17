@@ -1,14 +1,19 @@
 package org.example.warehouse_managment.controller;
 
+import jakarta.validation.Valid;
+import org.example.warehouse_managment.db_dto.InventoryDTO;
+import org.example.warehouse_managment.exceptions.InventoryNotFoundException;
 import org.example.warehouse_managment.model.Inventory;
 import org.example.warehouse_managment.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/inventory")
+@Validated
 public class InventoryController {
 
     @Autowired
@@ -21,12 +26,12 @@ public class InventoryController {
 
     @GetMapping("/{id}")
     public Inventory getInventory(@PathVariable int id) {
-        return inventoryService.getInventoryById(id).orElse(null);
+        return inventoryService.getInventoryById(id);
     }
 
     @PostMapping
-    public Inventory addInventory(@RequestBody Inventory inventory) {
-        return inventoryService.saveInventory(inventory);
+    public Inventory addInventory(@Valid @RequestBody InventoryDTO inventoryDTO) throws InventoryNotFoundException {
+        return inventoryService.saveInventory(inventoryDTO);
     }
 
     @PutMapping

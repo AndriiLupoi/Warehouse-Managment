@@ -1,5 +1,8 @@
 package org.example.warehouse_managment.service;
 
+import org.example.warehouse_managment.db_dto.CategoryDTO;
+import org.example.warehouse_managment.exceptions.CategoryNotFoundException;
+import org.example.warehouse_managment.mappers.CategoryMapper;
 import org.example.warehouse_managment.model.Category;
 
 import org.example.warehouse_managment.repository.CategoryRepository;
@@ -19,27 +22,30 @@ public class CategoryService {
 
     public List<Category> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
-        categories.forEach(System.out::println); // Вивід у консоль
+        categories.forEach(System.out::println);
         return categories;
     }
 
-
-
-
-    public Optional<Category> getCategoryById(int id) {
+    public Category getCategoryById(int id) throws CategoryNotFoundException {
         Optional<Category> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            System.out.println("Category found: " + category.get());
-        } else {
-            System.out.println("No category found with id: " + id);
+        if (category.isEmpty()) {
+            throw new CategoryNotFoundException("Category with ID " + id + " not found.");
         }
-        return category;
+        return category.get();
     }
 
 
-    public Category saveCategory(Category category) {
+    public Category saveCategory(CategoryDTO categoryDTO) throws CategoryNotFoundException {
+        Category category = CategoryMapper.INSTANCE.toCategory(categoryDTO);
+
+        Optional<Category> existingCategory = categoryRepository.findByName(categoryDTO.getName());
+        if (existingCategory.isPresent()) {
+            throw new CategoryNotFoundException("Category already exists");
+        }
+
         return categoryRepository.save(category);
     }
+
 
     public Category updateCategory(Category category) {
         return categoryRepository.save(category);

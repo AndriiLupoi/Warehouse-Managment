@@ -17,16 +17,16 @@ public class Movements {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "from_warehouse_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "from_warehouse_id", referencedColumnName = "id", nullable = true)
     private Warehouse fromWarehouse;
 
-    @ManyToOne
-    @JoinColumn(name = "to_warehouse_id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "to_warehouse_id", referencedColumnName = "id")
     private Warehouse toWarehouse;
 
     @Column(name = "quantity")
@@ -36,6 +36,7 @@ public class Movements {
     private LocalDateTime movedAt;
 
     @PrePersist
+    @PreUpdate
     private void setTimestamp() {
         this.movedAt = LocalDateTime.now();
     }

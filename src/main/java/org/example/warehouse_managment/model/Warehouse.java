@@ -21,4 +21,5 @@ public class Warehouse {
 
     @Column(name = "location")
     private String location;
+
 }

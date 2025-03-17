@@ -1,14 +1,19 @@
 package org.example.warehouse_managment.controller;
 
+import jakarta.validation.Valid;
+import org.example.warehouse_managment.db_dto.CategoryDTO;
+import org.example.warehouse_managment.exceptions.CategoryNotFoundException;
 import org.example.warehouse_managment.model.Category;
 import org.example.warehouse_managment.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/category")
+@Validated
 public class CategoryController {
 
     @Autowired
@@ -20,13 +25,13 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category getCategory(@PathVariable int id) {
-        return categoryService.getCategoryById(id).orElse(null);
+    public Category getCategory(@PathVariable int id) throws CategoryNotFoundException {
+        return categoryService.getCategoryById(id);
     }
 
     @PostMapping
-    public Category addCategory(@RequestBody Category category) {
-        return categoryService.saveCategory(category);
+    public Category addCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws CategoryNotFoundException {
+        return categoryService.saveCategory(categoryDTO);
     }
 
     @PutMapping

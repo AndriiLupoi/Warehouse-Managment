@@ -1,5 +1,8 @@
 package org.example.warehouse_managment.service;
 
+import org.example.warehouse_managment.db_dto.SupplierDTO;
+import org.example.warehouse_managment.exceptions.SupplierNotFoundException;
+import org.example.warehouse_managment.mappers.SupplierMapper;
 import org.example.warehouse_managment.model.Supplier;
 import org.example.warehouse_managment.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +21,20 @@ public class SupplierService {
         return supplierRepository.findAll();
     }
 
-    public Optional<Supplier> getSupplierById(int id) {
-        return supplierRepository.findById(id);
+    public Supplier getSupplierById(int id) throws SupplierNotFoundException {
+        Optional<Supplier> supplier = supplierRepository.findById(id);
+        if (supplier.isEmpty()) {
+            throw new SupplierNotFoundException("Supplier with ID " + id + " not found.");
+        }
+        return supplier.get();
     }
 
-    public Supplier saveSupplier(Supplier supplier) {
+    public Supplier saveSupplier(SupplierDTO supplierDTO) throws SupplierNotFoundException {
+        Supplier supplier = SupplierMapper.INSTANCE.toSupplier(supplierDTO);
+
         return supplierRepository.save(supplier);
     }
+
 
     public Supplier updateSupplier(Supplier supplier) {
         return supplierRepository.save(supplier);
