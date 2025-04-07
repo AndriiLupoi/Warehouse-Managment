@@ -38,4 +38,17 @@ public class Inventory {
         this.lastUpdated = LocalDateTime.now();
     }
 
+    // Конструктор для тестів
+    public Inventory(Product product, Warehouse warehouse, int quantity) {
+        this.product = product;
+        this.warehouse = warehouse;
+        this.quantity = quantity;
+    }
+
+    public Inventory(int id, Product product, Warehouse warehouse, int quantity) {
+        this.id = id;
+        this.product = product;
+        this.warehouse = warehouse;
+        this.quantity = quantity;
+    }
 }

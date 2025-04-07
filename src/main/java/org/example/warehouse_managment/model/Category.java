@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "categories")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Category {
 
     @Id
@@ -24,5 +23,8 @@ public class Category {
         return "Category{id=" + id + ", name='" + name + "'}";
     }
 
-
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

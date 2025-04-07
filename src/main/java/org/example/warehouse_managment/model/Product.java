@@ -36,4 +36,14 @@ public class Product {
     @Column(name = "created_at")
     private Date createdAt;
 
+    public Product(String name, Category category, Supplier supplier, BigDecimal price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public Product(int id, String name, Category category, Supplier supplier, BigDecimal price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+    }
 }

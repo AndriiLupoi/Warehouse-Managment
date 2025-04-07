@@ -3,6 +3,7 @@ package org.example.warehouse_managment.controller;
 import jakarta.validation.Valid;
 import org.example.warehouse_managment.db_dto.InventoryDTO;
 import org.example.warehouse_managment.exceptions.InventoryNotFoundException;
+import org.example.warehouse_managment.exceptions.ProductNotFoundException;
 import org.example.warehouse_managment.model.Inventory;
 import org.example.warehouse_managment.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,10 @@ public class InventoryController {
     }
 
     @PutMapping
-    public Inventory updateInventory(@RequestBody Inventory inventory) {
-        return inventoryService.updateInventory(inventory);
+    public Inventory updateInventory(@RequestBody InventoryDTO inventoryDTO) throws InventoryNotFoundException {
+        return inventoryService.updateInventory(inventoryDTO);
     }
+
 
     @DeleteMapping("/{id}")
     public void deleteInventory(@PathVariable int id) {

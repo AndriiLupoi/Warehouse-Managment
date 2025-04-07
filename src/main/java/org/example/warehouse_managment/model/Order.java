@@ -33,4 +33,10 @@ public class Order {
     private void setCreationTimestamp() {
         this.createdAt = LocalDateTime.now();
     }
+
+    public Order(int id, String customerName, OrderStatus status) {
+        this.id = id;
+        this.customerName = customerName;
+        this.status = status;
+    }
 }

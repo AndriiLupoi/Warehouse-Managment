@@ -17,15 +17,15 @@ public class Movements {
     @Column(name = "id")
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "from_warehouse_id", referencedColumnName = "id", nullable = true)
     private Warehouse fromWarehouse;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "to_warehouse_id", referencedColumnName = "id")
     private Warehouse toWarehouse;
 
@@ -39,5 +39,13 @@ public class Movements {
     @PreUpdate
     private void setTimestamp() {
         this.movedAt = LocalDateTime.now();
+    }
+
+    public Movements(int id, Product product, Warehouse fromWarehouse, Warehouse toWarehouse, int quantity) {
+        this.id = id;
+        this.product = product;
+        this.fromWarehouse = fromWarehouse;
+        this.toWarehouse = toWarehouse;
+        this.quantity = quantity;
     }
 }

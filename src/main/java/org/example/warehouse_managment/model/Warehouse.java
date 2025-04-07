@@ -22,4 +22,12 @@ public class Warehouse {
     @Column(name = "location")
     private String location;
 
+    public Warehouse(String name) {
+        this.name = name;
+    }
+
+    public Warehouse(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

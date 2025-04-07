@@ -22,4 +22,8 @@ public class Supplier {
     @Column(name = "contact_info")
     private String contactInfo;
 
+    public Supplier(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

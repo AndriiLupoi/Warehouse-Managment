@@ -26,4 +26,10 @@ public class InventoryDTO {
     private int quantity;
 
     private LocalDateTime lastUpdated;
+
+    public InventoryDTO(int productId, int warehouseId, int quantity) {
+        this.productId = productId;
+        this.warehouseId = warehouseId;
+        this.quantity = quantity;
+    }
 }

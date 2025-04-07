@@ -28,4 +28,11 @@ public class MovementDTO {
     private int quantity;
 
     private LocalDateTime movedAt;
+
+    public MovementDTO(int productId, int fromWarehouseId, int toWarehouseId, int quantity) {
+        this.productId = productId;
+        this.fromWarehouseId = fromWarehouseId;
+        this.toWarehouseId = toWarehouseId;
+        this.quantity = quantity;
+    }
 }

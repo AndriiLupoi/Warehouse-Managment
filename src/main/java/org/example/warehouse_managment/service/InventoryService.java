@@ -56,9 +56,34 @@ public class InventoryService {
     }
 
 
-    public Inventory updateInventory(Inventory inventory) {
+    public Inventory updateInventory(InventoryDTO inventoryDTO) throws InventoryNotFoundException {
+        // Перевірка, чи є Inventory за переданим ID
+        Optional<Inventory> existingInventory = inventoryRepository.findById(inventoryDTO.getProductId());
+        if (existingInventory.isEmpty()) {
+            throw new InventoryNotFoundException("Inventory not found");
+        }
+
+        Inventory inventory = existingInventory.get();
+
+        Optional<Product> product = productRepository.findById(inventoryDTO.getProductId());
+        if (product.isEmpty()) {
+            throw new InventoryNotFoundException("Product not found");
+        }
+        inventory.setProduct(product.get());
+
+        Optional<Warehouse> warehouse = warehouseRepository.findById(inventoryDTO.getWarehouseId());
+        if (warehouse.isEmpty()) {
+            throw new InventoryNotFoundException("Warehouse not found");
+        }
+        inventory.setWarehouse(warehouse.get());
+
+        inventory.setQuantity(inventoryDTO.getQuantity());
+
         return inventoryRepository.save(inventory);
     }
+
+
+
 
     public void deleteInventory(int id) {
         inventoryRepository.deleteById(id);
