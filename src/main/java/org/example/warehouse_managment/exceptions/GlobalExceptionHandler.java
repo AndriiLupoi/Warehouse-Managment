@@ -20,10 +20,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CategoryNotFoundException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ResponseEntity<String> handleResouceNotFoundException(CategoryNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+
 
     @ExceptionHandler(InventoryNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)

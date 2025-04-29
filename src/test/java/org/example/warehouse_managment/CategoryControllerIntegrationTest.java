@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@Rollback
 @ActiveProfiles("test") //H2 база
 public class CategoryControllerIntegrationTest {
 
@@ -92,4 +90,38 @@ public class CategoryControllerIntegrationTest {
         mockMvc.perform(get("/category/" + category.getId()))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void testAddCategoryWithEmptyName() throws Exception {
+        CategoryDTO categoryDTO = new CategoryDTO(""); // порожнє ім’я
+
+        mockMvc.perform(post("/category")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(categoryDTO)))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void testGetCategoryByNonExistentId() throws Exception {
+        mockMvc.perform(get("/category/999"))
+                .andExpect(status().isNotFound());
+    }
+
+
+    @Test
+    void testUpdateNonExistentCategory() throws Exception {
+        Category fakeCategory = new Category(999, "GhostCategory");
+
+        mockMvc.perform(put("/category")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(fakeCategory)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testDeleteNonExistentCategory() throws Exception {
+        mockMvc.perform(delete("/category/999"))
+                .andExpect(status().isNotFound());
+    }
+
 }

@@ -57,16 +57,23 @@ public class CategoryService {
     }
 
 
-    public Category updateCategory(Category category) {
+    public Category updateCategory(Category category) throws CategoryNotFoundException {
         logger.info("Updating category with ID: {}", category.getId());
-        Category updatedCategory = categoryRepository.save(category);
-        logger.info("Category updated with ID: {}", updatedCategory.getId());
-        return updatedCategory;
+        if (!categoryRepository.existsById(category.getId())) {
+            logger.error("Category with ID {} not found.", category.getId());
+            throw new CategoryNotFoundException("Category with ID " + category.getId() + " not found.");
+        }
+        return categoryRepository.save(category);
     }
 
-    public void deleteCategory(int id) {
+
+    public void deleteCategory(int id) throws CategoryNotFoundException {
         logger.info("Deleting category with ID: {}", id);
+        if (!categoryRepository.existsById(id)) {
+            logger.error("Category with ID {} not found.", id);
+            throw new CategoryNotFoundException("Category with ID " + id + " not found.");
+        }
         categoryRepository.deleteById(id);
-        logger.info("Category with ID {} deleted successfully.", id);
     }
+
 }

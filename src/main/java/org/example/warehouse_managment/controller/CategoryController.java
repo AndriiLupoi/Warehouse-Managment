@@ -30,17 +30,17 @@ public class CategoryController {
     }
 
     @PostMapping
-    public Category addCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws CategoryNotFoundException {
+    public Category addCategory( @RequestBody @Valid CategoryDTO categoryDTO) throws CategoryNotFoundException {
         return categoryService.saveCategory(categoryDTO);
     }
 
     @PutMapping
-    public Category updateCategory(@RequestBody Category category) {
+    public Category updateCategory(@RequestBody Category category) throws CategoryNotFoundException {
         return categoryService.updateCategory(category);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCategory(@PathVariable int id) {
+    public void deleteCategory(@PathVariable int id) throws CategoryNotFoundException {
         categoryService.deleteCategory(id);
     }
 }
